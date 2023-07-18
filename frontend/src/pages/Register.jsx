@@ -1,12 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
-import {Link} from 'react-router-dom'
+import {Link,matchRoutes,useNavigate} from 'react-router-dom'
 import {ToastContainer,toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import axios from 'axios'
 import { registerRoute } from '../utils/APIRoutes'
 
+
 export default function Register() {
+
+  const navigate = useNavigate();
+
     let [details,setDetails] = React.useState({
     username:"",
     email:"",
@@ -26,6 +30,12 @@ export default function Register() {
     draggable:false,
     theme:"dark"
   }
+
+  React.useEffect(()=>{
+    if(localStorage.getItem('password-manager-user')){
+      navigate('/');
+    }
+  });
 
   const validation = ()=>{
     const {username,email,password,confirmPassword} = details;
@@ -53,10 +63,16 @@ export default function Register() {
   const handleSubmit = async event=>{
     event.preventDefault();
     if (validation()){
-      let {username,email,password,confirmPassword} = details;
-      let {data} = axios.post(registerRoute,{username,email,password});
+      let {username,email,password} = details;
+      let {data} = await axios.post(registerRoute,{username,email,password,});
+      if (data.status){
+        localStorage.setItem('password-manager-user',JSON.stringify(data.user));
+        navigate('/');
+      } else {
+        toast.error(data.msg,errorOptions);
+      }
     }
-  }
+  };
 
 
   return (

@@ -6,15 +6,13 @@ const userRoutes = require('./routes/userRoutes');
 
 require("dotenv").config();
 
-mongoose.connect(process.env.MONGODB_PORT,{
-    useNewUrlParser:true,
-    useUnifiedTopology:true
-}).then(()=>console.log('Connected to database')).catch(e=>console.log(e));
+mongoose.connect("mongodb://127.0.0.1:27017/pwd_manager")
 
 
-app.use('/api/auth',userRoutes)
+
 app.use(cors());
 app.use(express.json());
+app.use('/api/auth/',userRoutes)
 
 app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', 'http://localhost:4000');
