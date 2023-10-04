@@ -6,7 +6,9 @@ const userRoutes = require('./routes/userRoutes');
 
 require("dotenv").config();
 
-mongoose.connect("mongodb://127.0.0.1:27017/pwd_manager")
+const MONGO_URL = process.env.MONGO_URL||"mongodb://127.0.0.1:27017";
+
+mongoose.connect(`${MONGO_URL}/pwd_manager`)
 
 
 
@@ -24,7 +26,7 @@ app.use(function(req, res, next) {
   });
 
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT||4000;
 app.listen(PORT,e=>{
     if (e){
         console.log(e);
