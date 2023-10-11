@@ -81,7 +81,7 @@ export default function Register() {
         <form>
         <div className='head'>
           <img src='' alt='' />
-          <h1>Name illa</h1>
+          <h1>JVCONNECT</h1>
         </div>
         <input 
           type='text' 
